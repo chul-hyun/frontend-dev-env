@@ -1,5 +1,7 @@
 #dist
 app/dist
+build/dist
+temp/
 
 # Logs
 logs

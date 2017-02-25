@@ -1,0 +1,6 @@
+{
+  "extends"    : "../common/.babelrc",
+  "presets": [
+    "react",
+  ]
+}
