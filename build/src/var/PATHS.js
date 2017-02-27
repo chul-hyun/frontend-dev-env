@@ -83,6 +83,5 @@ export default {
   common,
   output,
   entry,
-  config,
   build
 }

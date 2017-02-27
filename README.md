@@ -1,8 +1,8 @@
 # 아직 개발중.. (임시 공개용)
 
 #기술 스택
-* precomplier ( less, babel(ES2017), pug )
-* linter ( eslint, pug-lint, lesshint )
+* precomplier ( less, babel(ES2017) )
+* linter ( eslint, html5-lint, lesshint )
 * gunzip 및 min 적용
 * watch
 

@@ -28,4 +28,5 @@ task('style',
   )
 )
 
-task('default', series(parallel('html', 'script', 'style'), 'server'));
+//task('default', series(parallel('html', 'script', 'style'), 'server'));
+task('default', series('html'))

@@ -1,3 +1,5 @@
+import './env.js'
+import './gunzip/common.js'
 import './gunzip/html.js'
 import './gunzip/script.js'
 import './gunzip/style.js'

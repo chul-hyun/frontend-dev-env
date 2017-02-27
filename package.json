@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp",
-    "dev": "nodemon --watch gulpfile.babel.js --watch gulp/**/* --ignore gulp/auto.tasks.js gulp/pregulp.js"
+    "build": "gulp --cwd node_build"
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +36,7 @@
     "gulp-clean": "^0.3.2",
     "gulp-eslint": "^3.0.1",
     "gulp-gzip": "^1.4.0",
+    "gulp-html5-lint": "^1.1.0",
     "gulp-htmlmin": "^3.0.0",
     "gulp-insert": "^0.5.0",
     "gulp-node-browserify": "^0.1.1",

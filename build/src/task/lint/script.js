@@ -5,8 +5,6 @@ import path from 'path'
 
 import PATHS from '../../var/PATHS'
 
-console.log(PATHS);
-
 gulp.task('lint-script', () => {
   return gulp.src([PATHS.entry.script.glob])
     .pipe(eslint({
