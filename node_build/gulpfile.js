@@ -16,7 +16,7 @@ const prepend = insert.prepend(insertComment)
 const argv = require('yargs').argv
 
 gulp.task('clear', () => {
-  return del([config.glob.dir.etc], { force: true })
+  return del([config.glob.dir.etc, config.glob.dir.dot], { force: true })
 });
 
 gulp.task('mkdirp', (cb) => {
@@ -31,7 +31,7 @@ gulp.task('esscript', () => (
 ));
 
 gulp.task('copy', () => (
-  gulp.src(config.glob.src.noscript)
+  gulp.src([config.glob.src.noscript, config.glob.src.dot])
     .pipe(changed(config.dir.dist))
     .pipe(gulp.dest(config.dir.dist))
 ));
@@ -80,10 +80,11 @@ let gulpExec = {
 
     console.log(`gulp --cwd "${config.dir.dist}"`);
 
+    console.log('---gulp start---');
     this.p = spawn(
       'gulp.cmd',
       {
-        stdio: [process.stdin, process.stdout, process.stderr],
+        stdio: 'inherit',
         cwd: config.dir.dist
       });
 
@@ -91,7 +92,7 @@ let gulpExec = {
   },
   stop : () => {
     if(this.p) {
-      console.log('process kill');
+      console.log('---gulp stop---');
       this.p.kill();
       this.p = false;
     }
@@ -105,7 +106,7 @@ gulp.task('start_gulp', () => gulpExec.start())
 gulp.task('stop_gulp', () => gulpExec.stop())
 
 gulp.task('watch', () => {
-  gulp.watch([config.glob.src.etc, '!'+config.file.taskIndex], gulp.parallel('start'))
+  gulp.watch([config.glob.src.etc, config.glob.src.dot, '!'+config.file.taskIndex], gulp.parallel('start'))
     .on('change', function(path, stats) {
         console.log('change');
     })
@@ -114,22 +115,7 @@ gulp.task('watch', () => {
     });
 })
 
-gulp.task('auto-reload', () => {
-  var p;
-
-  gulp.watch('gulpfile.js', spawnChildren);
-  spawnChildren();
-
-  function spawnChildren(e) {
-    // kill previous spawned process
-    if(p) { p.kill(); }
-
-    // `spawn` a child `gulp` process linked to the parent `stdio`
-    p = spawn('gulp.cmd', [argv.task], {stdio: 'inherit'});
-  }
-});
-
 gulp.task('init', gulp.series('clear', 'mkdirp'))
-gulp.task('build', gulp.parallel('copy', gulp.series('createTaskIndex', 'esscript')))
+gulp.task('build',  gulp.series('init', gulp.parallel('copy', gulp.series('createTaskIndex', 'esscript'))))
 gulp.task('start', gulp.series('stop_gulp', 'build', 'start_gulp'))
 gulp.task('default', gulp.series('init', 'start', 'watch'))

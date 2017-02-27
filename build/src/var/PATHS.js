@@ -38,7 +38,23 @@ output.html   = createExtendPathObj(extend(output.common, {
   ext : '.html'
 }))
 
-let config = {
+let build = {}
+build.entry = createExtendPathObj({
+  dir  : path.join(appRoot, 'build', 'src'),
+  name : 'gulpfile',
+  ext  : '.js'
+})
+build.output = createExtendPathObj({
+  dir  : path.join(appRoot, 'build', 'dist'),
+  name : 'gulpfile',
+  ext  : '.js'
+})
+
+let config = {}
+
+config.root = path.join(build.output.dir, 'config'),
+
+config = extend(config, {
   web : {
     gunzip: {
       html : '',
@@ -47,7 +63,7 @@ let config = {
     },
     lint: {
       html : '',
-      script: '',
+      script: path.join(config.root, 'web', '.eslintrc.json'),
       style: ''
     },
     min: {
@@ -71,19 +87,6 @@ let config = {
       style: ''
     },
   }
-}
-
-
-let build = {}
-build.entry = createExtendPathObj({
-  dir  : path.join(appRoot, 'build', 'src'),
-  name : 'gulpfile',
-  ext  : '.js'
-})
-build.output = createExtendPathObj({
-  dir  : path.join(appRoot, 'build', 'dist'),
-  name : 'gulpfile',
-  ext  : '.js'
 })
 
 function createExtendPathObj(pathObj){

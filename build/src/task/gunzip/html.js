@@ -1,3 +1,4 @@
+/*
 import gulp from 'gulp'
 import gzip from 'gulp-gzip'
 import changed from 'gulp-changed'
@@ -13,4 +14,15 @@ gulp.task('gunzip-html', () => {
     .pipe(changed(htmlDir))
     .pipe(gzip())
     .pipe(gulp.dest(htmlDir))
+})
+*/
+
+import gulp from 'gulp'
+
+gulp.task('gz-html',() => {
+  return new Promise((resolve) => {
+    setTimeout(()=>{
+      resolve()
+    }, 1000)
+  })
 })

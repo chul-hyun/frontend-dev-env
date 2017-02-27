@@ -1,11 +1,31 @@
-console.log('--------start----------');
+import gulp, { series, parallel, task} from 'gulp'
+import './task'
 
-import gulp from 'gulp'
-gulp.task('default', ()=>{
-  console.log('excute!!!')
-  return new Promise((resolve) => {
+task('html',
+  series(
+    'lint-html',
+    'trans-html',
+    'min-html',
+    'gz-html'
+  )
+)
 
-    console.log('end!!!')
-    setTimeout(resolve, 1000)
-  })
-});
+task('script',
+  series(
+    'lint-script',
+    'trans-script',
+    'min-script',
+    'gz-script'
+  )
+)
+
+task('style',
+  series(
+    'lint-style',
+    'trans-style',
+    'min-style',
+    'gz-style'
+  )
+)
+
+task('default', series(parallel('html', 'script', 'style'), 'server'));

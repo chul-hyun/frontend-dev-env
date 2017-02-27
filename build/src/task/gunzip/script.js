@@ -1,3 +1,4 @@
+/*
 import gulp from 'gulp'
 import gzip from 'gulp-gzip'
 import changed from 'gulp-changed'
@@ -13,4 +14,15 @@ gulp.task('gunzip-script', () => {
     .pipe(changed(scriptDir))
     .pipe(gzip())
     .pipe(gulp.dest(scriptDir))
+})
+*/
+
+import gulp from 'gulp'
+
+gulp.task('gz-script',() => {
+  return new Promise((resolve) => {
+    setTimeout(()=>{
+      resolve()
+    }, 1000)
+  })
 })
