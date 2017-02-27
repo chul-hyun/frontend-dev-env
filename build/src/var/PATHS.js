@@ -50,45 +50,6 @@ build.output = createExtendPathObj({
   ext  : '.js'
 })
 
-let config = {}
-
-config.root = path.join(build.output.dir, 'config'),
-
-config = extend(config, {
-  web : {
-    gunzip: {
-      html : '',
-      script: '',
-      style: ''
-    },
-    lint: {
-      html : '',
-      script: path.join(config.root, 'web', '.eslintrc.json'),
-      style: ''
-    },
-    min: {
-      html : '',
-      script: '',
-      style: ''
-    },
-    server: {
-      html : '',
-      script: '',
-      style: ''
-    },
-    trans: {
-      html : '',
-      script: '',
-      style: ''
-    },
-    watch: {
-      html : '',
-      script: '',
-      style: ''
-    },
-  }
-})
-
 function createExtendPathObj(pathObj){
   let extendPathObj      = {}
 
