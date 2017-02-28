@@ -3,29 +3,30 @@ import './task'
 
 task('html',
   series(
-    'lint-html',
-    'trans-html',
-    'min-html',
-    'gz-html'
+    'lint-html5lint-html',
+    'trans-copy-html',
+    'min-htmlmin-html',
+    'compress-gz-html'
   )
 )
 
 task('script',
   series(
-    'lint-script',
-    'trans-script',
-    'min-script',
-    'gz-script'
+    'lint-eslint-script',
+    'trans-babelify-script',
+    'min-uglify-script',
+    'compress-gz-script'
   )
 )
 
 task('style',
   series(
-    'lint-style',
-    'trans-style',
-    'min-style',
-    'gz-style'
+    'lint-lesshint-style',
+    'trans-less-style',
+    'min-cssnano-style',
+    'compress-gz-style'
   )
 )
 
-task('default', series('clean', parallel('html', 'script', 'style'), 'server'));
+task('build', parallel('html', 'script', 'style'))
+task('default', series('clean', 'build' , 'server'));

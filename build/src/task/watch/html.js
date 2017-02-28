@@ -1,3 +1,3 @@
-import gulp from 'gulp'
+import createWatchTask from './createWatchTask'
 
-gulp.task('watch-html')
+createWatchTask('html')

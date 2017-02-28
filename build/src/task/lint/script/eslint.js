@@ -3,19 +3,17 @@ import eslint from 'gulp-eslint'
 import changed from 'gulp-changed'
 import path from 'path'
 
-import PATHS from '../../var/PATHS'
+import PATHS from '../../../var/PATHS'
 
-let configfile = PATHS.build.config.web.eslintrc
+let configFile = PATHS.build.config.web.eslintrc
 
-task('copy-lint-script', () => src(configfile)
+task('lint-script-eslint-copy', () => src(configFile)
   .pipe(dest(PATHS.entry.common.dir))
 )
 
-task('lint-script', parallel('copy-lint-script'), () =>
+task('lint-script-eslint', parallel('lint-script-eslint-copy'), () =>
   src([PATHS.entry.script.glob])
-    .pipe(eslint({
-      configFile: configfile
-    }))
+    .pipe(eslint({ configFile }))
     .pipe(eslint.format('codeframe'))
     .pipe(eslint.failAfterError())
 )

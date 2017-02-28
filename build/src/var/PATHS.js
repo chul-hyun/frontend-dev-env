@@ -9,32 +9,32 @@ let common = {
 
 let entry = {}
 
-entry.common = createExtendPathObj(extend(common, {
+entry.all = createExtendPathObj(extend(common, {
   dir : path.join(common.dir, 'src')
 }))
-entry.script = createExtendPathObj(extend(entry.common, {
+entry.script = createExtendPathObj(extend(entry.all, {
   ext : '.js'
 }))
-entry.style  = createExtendPathObj(extend(entry.common, {
+entry.style  = createExtendPathObj(extend(entry.all, {
   ext : '.less'
 }))
-entry.html   = createExtendPathObj(extend(entry.common, {
+entry.html   = createExtendPathObj(extend(entry.all, {
   ext : '.html'
 }))
 
 
 let output = {}
 
-output.common = createExtendPathObj(extend(common, {
+output.all = createExtendPathObj(extend(common, {
   dir : path.join(common.dir, 'dist')
 }))
-output.script = createExtendPathObj(extend(output.common, {
+output.script = createExtendPathObj(extend(output.all, {
   ext : '.js'
 }))
-output.style  = createExtendPathObj(extend(output.common, {
+output.style  = createExtendPathObj(extend(output.all, {
   ext : '.css'
 }))
-output.html   = createExtendPathObj(extend(output.common, {
+output.html   = createExtendPathObj(extend(output.all, {
   ext : '.html'
 }))
 
@@ -54,8 +54,8 @@ build.output = createExtendPathObj({
 let bc = build.config = {}
 bc.root = path.join(build.output.dir, 'config')
 
-let bcc = bc.common = {}
-bcc.root = path.join(bc.root, 'common')
+let bcc = bc.all = {}
+bcc.root = path.join(bc.root, 'all')
 bcc.eslintrc = path.join(bcc.root, '.eslintrc')
 bcc.babelrc = path.join(bcc.root, '.babelrc')
 
@@ -68,6 +68,8 @@ let bcw = bc.web = {}
 bcw.root = path.join(bc.root, 'web')
 bcw.eslintrc = path.join(bcw.root, '.eslintrc')
 bcw.babelrc = path.join(bcw.root, '.babelrc')
+bcw.lesshintrc = path.join(bcw.root, '.lesshintrc')
+
 
 function createExtendPathObj(pathObj){
   let extendPathObj      = {}

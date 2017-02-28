@@ -1,4 +1,4 @@
 {
-  "extends"    : "../common/.babelrc",
+  "extends"    : "../all/.babelrc",
   "sourceMaps" : true
 }

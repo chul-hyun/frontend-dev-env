@@ -1,14 +1,14 @@
 import { task, src, dest } from 'gulp'
 import gzip from 'gulp-gzip'
 
-import PATHS from '../../var/PATHS'
+import PATHS from '../../../var/PATHS'
 
-export function createGzTask(type) {
+export default function createGzTask(type) {
   let output = PATHS.output[type]
   let files  = output.glob
   let dir    = output.dir
 
-  task(`gz-${type}`, () => src(files)
+  task(`compress-${type}-gz`, () => src(files)
     .pipe(gzip())
     .pipe(dest(dir))
   )
