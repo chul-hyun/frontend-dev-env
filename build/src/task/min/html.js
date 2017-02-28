@@ -5,16 +5,13 @@ import changed from 'gulp-changed';
 import PATHS from '../../var/PATHS'
 import env from '../env'
 
-let srcFiles   = PATHS.entry.html.glob
-let destFolder = PATHS.output.html.dir
+let files = PATHS.output.html.glob
+let dir   = PATHS.output.html.dir
 
-/*
+
 if(env.isDevelopment()){
-  task('min-html', () => (
-    src(srcFiles)
-      .pipe(dest(destFolder))
-  ))
-}else {*/
+  task('min-html', (cb) => cb())
+}else {
   let config = {
     caseSensitive               : true,
     collapseBooleanAttributes   : true,
@@ -23,10 +20,9 @@ if(env.isDevelopment()){
     conservativeCollapse        : true
   }
 
-  task('min-html', () => (
-    src(srcFiles)
-      .pipe(changed(destFolder))
-      .pipe(htmlmin(config))
-      .pipe(dest(destFolder))
-  ))
-//}
+  task('min-html', () => src(files)
+    .pipe(changed(dir))
+    .pipe(htmlmin(config))
+    .pipe(dest(dir))
+  )
+}

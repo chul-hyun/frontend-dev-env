@@ -1,3 +1,4 @@
+import './clean/index.js'
 import './env.js'
 import './gunzip/common.js'
 import './gunzip/html.js'

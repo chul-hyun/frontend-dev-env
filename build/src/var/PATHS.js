@@ -39,6 +39,7 @@ output.html   = createExtendPathObj(extend(output.common, {
 }))
 
 let build = {}
+
 build.entry = createExtendPathObj({
   dir  : path.join(appRoot, 'build', 'src'),
   name : 'gulpfile',
@@ -49,6 +50,24 @@ build.output = createExtendPathObj({
   name : 'gulpfile',
   ext  : '.js'
 })
+
+let bc = build.config = {}
+bc.root = path.join(build.output.dir, 'config')
+
+let bcc = bc.common = {}
+bcc.root = path.join(bc.root, 'common')
+bcc.eslintrc = path.join(bcc.root, '.eslintrc')
+bcc.babelrc = path.join(bcc.root, '.babelrc')
+
+let bcn = bc.node = {}
+bcn.root = path.join(bc.root, 'node')
+bcn.eslintrc = path.join(bcn.root, '.eslintrc')
+bcn.babelrc = path.join(bcn.root, '.babelrc')
+
+let bcw = bc.web = {}
+bcw.root = path.join(bc.root, 'web')
+bcw.eslintrc = path.join(bcw.root, '.eslintrc')
+bcw.babelrc = path.join(bcw.root, '.babelrc')
 
 function createExtendPathObj(pathObj){
   let extendPathObj      = {}
@@ -77,6 +96,13 @@ function clone(obj){
   return Object.assign({}, obj)
 }
 
+export {
+  appRoot,
+  common,
+  output,
+  entry,
+  build
+}
 
 export default {
   appRoot,

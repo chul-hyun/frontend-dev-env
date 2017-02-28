@@ -1,4 +1,4 @@
-import gulp, { series, parallel, task} from 'gulp'
+import gulp, { series, parallel, task } from 'gulp'
 import './task'
 
 task('html',
@@ -28,5 +28,4 @@ task('style',
   )
 )
 
-//task('default', series(parallel('html', 'script', 'style'), 'server'));
-task('default', series('html'))
+task('default', series('clean', parallel('html', 'script', 'style'), 'server'));

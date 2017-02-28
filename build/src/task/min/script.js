@@ -1,24 +1,16 @@
-/*
-import gulp from 'gulp'
+import { task, src, dest } from 'gulp'
 import uglify from 'gulp-uglify'
 
 import PATHS from '../../var/PATHS'
-import config from '../../config'
+import env from '../env'
 
-gulp.task('min-script', () => {
+
+if(env.isDevelopment()){
+  task('min-script', (cb) => cb())
+}else {
   let script = PATHS.output.script
-  return gulp.src(script.file)
-    .pipe(uglify(config.web.min.script))
-    .pipe(gulp.dest(script.dir))
-})
-*/
-
-import gulp from 'gulp'
-
-gulp.task('min-script',() => {
-  return new Promise((resolve) => {
-    setTimeout(()=>{
-      resolve()
-    }, 1000)
-  })
-})
+  task('min-script', () => src(script.file)
+    .pipe(uglify())
+    .pipe(dest(script.dir))
+  )
+}

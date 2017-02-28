@@ -1,9 +1,12 @@
-import gulp from 'gulp'
+import { task, src, dest } from 'gulp'
+import changed from 'gulp-changed';
 
-gulp.task('trans-html',() => {
-  return new Promise((resolve) => {
-    setTimeout(()=>{
-      resolve()
-    }, 1)
-  })
-})
+import PATHS from '../../var/PATHS'
+
+let file = PATHS.entry.html.file
+let dir  = PATHS.output.html.dir
+
+task('trans-html',() => src(file)
+  .pipe(changed(dir))
+  .pipe(dest(dir))
+)
