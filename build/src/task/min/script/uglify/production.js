@@ -1,12 +1,14 @@
 import { task, src, dest } from 'gulp'
-import gzip from 'gulp-gzip'
+import uglify from 'gulp-uglify'
+import changed from 'gulp-changed'
 
 export default function createGzTask(taskName, entry, output, option) {
-  let files  = output.glob
-  let dir    = output.dir
+  let files = output.glob
+  let dir   = output.dir
 
   task(taskName, () => src(files)
-    .pipe(gzip())
+    .pipe(changed(dir))
+    .pipe(uglify())
     .pipe(dest(dir))
   )
 }
