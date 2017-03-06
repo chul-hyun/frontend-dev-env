@@ -1,6 +1,6 @@
 {
   "name": "frontend-dev-env",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -45,6 +45,7 @@
     "gulp-sourcemaps": "^2.4.1",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
+    "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.1",

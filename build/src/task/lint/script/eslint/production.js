@@ -1,8 +1,8 @@
 import { task, src, dest, parallel } from 'gulp'
 import eslint from 'gulp-eslint'
 
-export default function createGzTask(taskName, entry, output, option) {
-  let configFile = option.eslintrc
+export default function createGzTask(taskName, {entry, config}) {
+  let configFile = config.eslintrc
   let copyTaskName = `${taskName}Copy`
 
   task(copyTaskName, () => src(configFile)

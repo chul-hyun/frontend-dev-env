@@ -1,6 +1,6 @@
 import gulp from 'gulp'
 //gulp-cssnano
 
-export default function createGzTask(taskName, entry, output, option) {
+export default function createGzTask(taskName) {
   gulp.task(taskName, (cb) => cb())
 }
