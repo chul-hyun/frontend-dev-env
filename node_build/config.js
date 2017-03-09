@@ -1,40 +1,52 @@
 const appRoot = require('app-root-path').path
 const path = require('path')
 
-let dir = {}
-dir.node_build = path.join(appRoot, 'node_build')
-dir.build = path.join(appRoot, 'build')
-dir.config = path.join(appRoot, 'config')
-dir.dist = path.join(dir.build, 'dist')
-dir.src = path.join(dir.build, 'src')
-dir.task = path.join(dir.src, 'task')
+const build      = path.join(appRoot, 'build')
+const dist       = path.join(build, 'dist')
+const src        = path.join(build, 'src')
+const taskCreate = path.join(src, 'taskCreate')
 
-let file = {}
-file.babelrc = path.join(dir.node_build, '.babelrc.json')
-file.taskIndex = path.join(dir.task, 'index.js')
+const node_build = path.join(appRoot, 'node_build')
 
-let glob = {}
+const allFileGlob = '{.*,*}'
+const jsFileGlob = '*.js'
 
-glob.src          = {}
-glob.src.script   = path.join(dir.src, '**', '*.js')
-glob.src.etc      = path.join(dir.src, '**', '*')
-// https://github.com/isaacs/node-glob#dots
-glob.src.dot      = path.join(dir.src, '**', '.*')
-glob.src.noscript = path.join(dir.src, '**', '!(*.js)')
 
-glob.dir     = {}
-glob.dir.etc = path.join(dir.dist, '**', '*')
-glob.dir.dot = path.join(dir.dist, '**', '.*')
+const clean = {
+  src : path.join(dist, '**', allFileGlob)
+}
 
-glob.node_build          = {}
-glob.node_build.script   = path.join(dir.node_build, '**', '*.js')
-glob.node_build.etc      = path.join(dir.node_build, '**', '*')
-glob.node_build.dot      = path.join(dir.node_build, '**', '.*')
-glob.node_build.noscript = path.join(dir.node_build, '**', '!(*.js)')
+const mkdir = {
+  src : dist
+}
 
-module.exports =  {
-  appRoot,
-  dir,
-  file,
-  glob
+const copy = {
+  src  : path.join(dist, '**', `{.*,!(${jsFileGlob})}`),
+  dest : dist
+}
+
+const babel = {
+  src         : path.join(dist, '**', jsFileGlob),
+  babelrcFile : path.join(node_build, '.babelrc.json'),
+  dest        : dist
+}
+
+const createIndex = {
+  src       : path.join(taskCreate, '**', jsFileGlob),
+  indexFile : path.join(taskCreate, 'index.js'),
+  dest      : taskCreate
+}
+
+const watch = {
+  src : path.join(src, '**', allFileGlob)
+}
+
+
+module.exports = {
+  clean,
+  mkdir,
+  copy,
+  babel,
+  createIndex,
+  watch
 }

@@ -1,12 +1,9 @@
 import { task, src, dest } from 'gulp'
 import gzip from 'gulp-gzip'
 
-export default function createGzTask(taskName, {output}) {
-  let files  = output.glob
-  let dir    = output.dir
-
-  task(taskName, () => src(files)
+export default (taskName, {entry, output}) => {
+  task(taskName, () => src(entry)
     .pipe(gzip())
-    .pipe(dest(dir))
+    .pipe(dest(output))
   )
 }

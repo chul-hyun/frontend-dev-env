@@ -1,9 +1,9 @@
 import { task } from 'gulp'
 import del from 'del';
 
-// taskName, {entry, output, config}
-export default (taskName, {output}) => {
+// taskName, {entry, output}, config
+export default (taskName, {entry}) => {
   task(taskName, () =>
-    del(output.glob , { force: true })
+    del(entry , { force: true })
   )
 }

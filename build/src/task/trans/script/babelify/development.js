@@ -1,7 +1,7 @@
 import { task, src, dest } from 'gulp'
 import changed from 'gulp-changed'
 
-import babelify from './gulp-babelify'
+import babelify from '../plugin/gulp-babelify'
 import PATHS from '../../../../var/PATHS'
 import defaultConfig from './defaultConfig'
 
@@ -19,3 +19,11 @@ task('trans-babelify-script-development', () => src(file)
   .pipe(babelify(config))
   .pipe(dest(dir))
 )
+
+export default (taskName, {entry, output}, config) => {
+  task(taskName, () => src(entry)
+    .pipe(changed(output))
+    .pipe(babelify(config))
+    .pipe(dest(output))
+  )
+}

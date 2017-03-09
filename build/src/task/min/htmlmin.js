@@ -13,12 +13,12 @@ let config = {
 }
 */
 
-export default (taskName, {entry}, config) => {
-  let dir   = path.dirname(entry)
+export default (taskName, paths, config) => {
+  let dirDest = paths.dir.dest
 
-  task(taskName, () => src(entry)
-    .pipe(changed(dir))
+  task(taskName, () => src(paths.file.src)
+    .pipe(changed(dirDest))
     .pipe(htmlmin(config))
-    .pipe(dest(dir))
+    .pipe(dest(dirDest))
   )
 }

@@ -30,3 +30,13 @@ function notifyChangeFile(event){
 function reload(event){
   browserSync.reload(event.path)
 }
+
+export default (taskName, {entry, output}, config) => {
+  task(taskName, () => {
+    watch(entry, config.inputTask)
+      .on('change', config.onInputChange)
+
+    watch(output, config.outputTask)
+      .on('change', config.onOutputChange)
+  })
+}

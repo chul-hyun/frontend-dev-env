@@ -1,4 +1,0 @@
-{
-  "extends"    : "../all/.babelrc",
-  "sourceMaps" : true
-}

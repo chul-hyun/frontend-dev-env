@@ -1,17 +1,17 @@
 import { task, src, dest, parallel } from 'gulp'
+import path from 'path';
 import eslint from 'gulp-eslint'
 
-export default function createGzTask(taskName, {entry, config}) {
-  let configFile = config.eslintrc
+export default (taskName, {entry}, config) => {
   let copyTaskName = `${taskName}Copy`
 
-  task(copyTaskName, () => src(configFile)
-    .pipe(dest(entry.dir))
+  task(copyTaskName, () => src(config.configFile)
+    .pipe(dest(path.dirname(entry)))
   )
 
   task(taskName, parallel(copyTaskName), () =>
-    src([entry.glob])
-      .pipe(eslint({ configFile }))
+    src(entry)
+      .pipe(eslint(config))
       .pipe(eslint.format('codeframe'))
       .pipe(eslint.failAfterError())
   )

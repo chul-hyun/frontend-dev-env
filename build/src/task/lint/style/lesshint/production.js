@@ -1,15 +1,16 @@
 import { task, src, dest, parallel } from 'gulp'
-import lesshint from 'gulp-lesshint';
+import path from 'path'
+import lesshint from 'gulp-lesshint'
 
-export default function createGzTask(taskName, {entry, config}) {
+export default (taskName, {entry}, config) => {
   let copyTaskName = `${taskName}Copy`
 
   task(copyTaskName, () => src(config.configPath)
-    .pipe(dest(PATHS.entry.common.dir))
+    .pipe(dest(path.dirname(entry)))
   )
 
   task(taskName, parallel(copyTaskName), () =>
-    src(PATHS.entry.style.glob)
+    src(entry)
       .pipe(lesshint(config))
       .pipe(lesshint.reporter('stylish'))
       .pipe(lesshint.failOnError())

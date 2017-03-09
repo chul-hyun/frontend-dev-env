@@ -1,14 +1,12 @@
 import { task, src, dest } from 'gulp'
 import uglify from 'gulp-uglify'
 import changed from 'gulp-changed'
+import path from 'path'
 
-export default function createGzTask(taskName, {output}) {
-  let files = output.glob
-  let dir   = output.dir
-
-  task(taskName, () => src(files)
-    .pipe(changed(dir))
+export default (taskName, {entry, output}) => {
+  task(taskName, () => src(entry)
+    .pipe(changed(output))
     .pipe(uglify())
-    .pipe(dest(dir))
+    .pipe(dest(output))
   )
 }

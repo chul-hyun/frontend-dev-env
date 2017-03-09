@@ -1,15 +1,18 @@
-const pug = require('pug');
+// you can write to stdout for debugging purposes, e.g.
+// console.log('this is a debug message');
 
-// Compile the source code
-const compiledFunction = pug.compileFile('template.pug');
+function solution(N) {
+    // write your code in JavaScript (Node.js 6.4.0)
 
-var tidy = require("tidy-html5").tidy_html5
+    for(let i = 1; i <= N ; i++){
+        i++;
+    }
+    function mem(){
+        const MAX = 100000;
+        for(let i = 1 ; i <= MAX ; i++){
+            (i+'').match(/1/g).length
+        }
+    }
+}
 
-var html = compiledFunction({
-  name: 'Timothy'
-})
-
-console.log(html);
-var result = tidy(html, {"indent-spaces": 4});
-
-console.log(result);
+console.log(solution([1,3,-3]));
