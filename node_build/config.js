@@ -8,12 +8,11 @@ const taskCreate = path.join(src, 'taskCreate')
 
 const node_build = path.join(appRoot, 'node_build')
 
-const allFileGlob = '{.*,*}'
 const jsFileGlob = '*.js'
 
 
 const clean = {
-  src : path.join(dist, '**', allFileGlob)
+  src : path.join(dist, '**', '*')
 }
 
 const mkdir = {
@@ -21,12 +20,12 @@ const mkdir = {
 }
 
 const copy = {
-  src  : path.join(dist, '**', `{.*,!(${jsFileGlob})}`),
+  src  : path.join(src, '**', `{.*,!(${jsFileGlob})}`),
   dest : dist
 }
 
 const babel = {
-  src         : path.join(dist, '**', jsFileGlob),
+  src         : path.join(src, '**', jsFileGlob),
   babelrcFile : path.join(node_build, '.babelrc.json'),
   dest        : dist
 }
@@ -38,7 +37,15 @@ const createIndex = {
 }
 
 const watch = {
-  src : path.join(src, '**', allFileGlob)
+  src : path.join(src, '**', '*')
+}
+
+const start_gulp = {
+  src  : path.join(dist, 'gulpfile.js')
+}
+
+const stop_gulp = {
+  src  : path.join(dist, 'gulpfile.js')
 }
 
 
@@ -48,5 +55,7 @@ module.exports = {
   copy,
   babel,
   createIndex,
-  watch
+  watch,
+  start_gulp,
+  stop_gulp
 }

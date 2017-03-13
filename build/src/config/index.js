@@ -32,8 +32,8 @@ registTasks(configList)
 runTaskDefine(configs)
 
 function getConfigs(){
-  return priority.tasks.map((envName) =>
-    require(path.resolve('env', envName))
+  return priority.map((envName) =>
+    require(path.resolve(__dirname, 'env', envName)).default.tasks
   )
 }
 
@@ -57,7 +57,7 @@ function getConfigToList(configObj){
           taskConfig,
           taskName   : `${category}-${moduleName}-${fileType}`,
           paths      : pathInfo[fileType],
-          modulePath : path.resolve('..', 'task', category, moduleName)
+          modulePath : path.resolve(__dirname, '..', 'task', category, moduleName)
         })
       }
     }
@@ -75,12 +75,36 @@ function registTasks(configList){
     paths,
     modulePath
   }) => {
-    require(modulePath)(taskName, paths, taskConfig)
+    console.log('taskName', taskName);
+    require(modulePath).default(taskName, paths, taskConfig)
   })
+
+  let autoRegistTasks = {}
+
+  configList.forEach(({
+    category,
+    moduleName,
+    fileType,
+    taskConfig,
+    taskName,
+    paths,
+    modulePath
+  }) => {
+    autoRegistTasks[category] | autoRegistTasks[category] = []
+    autoRegistTasks[fileType] | autoRegistTasks[fileType] = []
+    autoRegistTasks[category].push(taskName)
+    autoRegistTasks[fileType].push(taskName)
+  }
+
+  for(let taskName in autoRegistTasks){
+    gulp.task(taskName, gulp.series.apply(gulp, autoRegistTasks[taskName])
+  }
 }
 
 function runTaskDefine(configs){
+  console.log(configs);
   configs.forEach((config) => {
+
     if(_.isFunction(config.taskDefine)){
       config.taskDefine(gulp)
     }

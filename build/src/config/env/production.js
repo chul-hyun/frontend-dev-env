@@ -60,7 +60,7 @@ tasks.min = {
       conservativeCollapse        : true
     }
   },
-  csssnano: {
+  cssnano: {
     style:{}
   }
 }
@@ -70,27 +70,30 @@ let baseDir = pathInfo.html.dir
 tasks.server = {
   browserSync: {
     all:{
-      server: {
-        baseDir
-      },
-      callbacks: {
-        ready: (err, bs) => {
-          bs.addMiddleware("*", gzipStatic(baseDir), {
-            override: true
-          });
-        }
-      },
-      ui: false,
-      port: 80,
-      codeSync: false,
-      open: false,
-      ghostMode: {
-        clicks: false,
-        forms: false,
-        scroll: false
-      },
-      reloadOnRestart: false,
-      reloadDebounce: 0
+      bs: bs,
+      config: {
+        server: {
+          baseDir
+        },
+        callbacks: {
+          ready: (err, bs) => {
+            bs.addMiddleware("*", gzipStatic(baseDir), {
+              override: true
+            });
+          }
+        },
+        ui: false,
+        port: 80,
+        codeSync: false,
+        open: false,
+        ghostMode: {
+          clicks: false,
+          forms: false,
+          scroll: false
+        },
+        reloadOnRestart: false,
+        reloadDebounce: 0
+      }
     }
   }
 }

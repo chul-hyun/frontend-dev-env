@@ -1,6 +1,8 @@
+import { task } from 'gulp';
+
 export default (taskName, paths, config) => {
   task(taskName, (cb) =>
-    browserSync.init(config, () => cb())
+    config.bs.init(config.config, () => cb())
   )
 }
 

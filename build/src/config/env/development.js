@@ -1,20 +1,19 @@
-export default {
-
-}
 let tasks = {}
 
 tasks.server = {
   browserSync: {
     all:{
-      codeSync  : true,
-      open      : false,
-      ghostMode : {
-        clicks : true,
-        forms  : true,
-        scroll : true
-      },
-      reloadOnRestart : true,
-      reloadDebounce  : 1000
+      config: {
+        codeSync  : true,
+        open      : false,
+        ghostMode : {
+          clicks : true,
+          forms  : true,
+          scroll : true
+        },
+        reloadOnRestart : true,
+        reloadDebounce  : 1000
+      }
     }
   }
 }
