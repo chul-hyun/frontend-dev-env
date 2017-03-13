@@ -1,6 +1,3 @@
-//@TODO production과 development와 performance의 extend 코드 <- node_build에?
-
-
 //@TODO env에 따라 task 순서와 각각의 task설정이 바뀜.
 
 //@TODO performance환경 - dev환경 -  pro환경 순으로 extend 됨.
@@ -12,80 +9,80 @@
 //@TODO 여러개의 파일종류를 한번에 지정 가능해야됨.(html, css ...)
 //@TODO 공유되는 변수 (server변수)같은 경우에도 config로 전달.
 
-import * as production from './production'
-import * as development from './development'
-import * as performance from './performance'
+
+//@TODO custom taskName 등록도 가능하게.
+import priority from './priority'
 
 import pathInfo from './pathInfo'
 
-import _ from 'lodash';
+import path from 'path';
 
-const env = 'development'
+import gulp from 'gulp';
 
-const result = {}
+import _ from 'lodash'
 
-const priorities = {
-  production  : ['production'],
-  development : ['production', 'development'],
-  performance : ['production', 'performance']
+let configs = getConfigs()
+
+let configObj = getConfigMerge(configs)
+
+let configList = getConfigToList(configObj)
+
+registTasks(configList)
+
+runTaskDefine(configs)
+
+function getConfigs(){
+  return priority.tasks.map((envName) =>
+    require(path.resolve('env', envName))
+  )
 }
 
-const configs = {
-  production,
-  development,
-  performance
+function getConfigMerge(configs){
+  return _.merge.apply(_, configs)
 }
 
-const priority = priorities[env]
+function getConfigToList(configObj){
+  let configList = []
 
-priority.forEach((configKey) => {
-  let config = configs[configKey]
-  let r = result
-
-  [0, 0, 1].forEach((val) => {
-    _.keys(config).forEach((key) => {
-      config = config[key]
-
-      if(val === 1){
-        if(r[key] === undefined){
-          r[key] = config
-        }else{
-          Object.assign(r[key], config)
-        }
-      }else{
-        r = r[key] = initObject(r[key])
+  for(let category in configObj){
+    let moduleNames = configObj[category]
+    for(let moduleName in moduleNames){
+      let fileTypes = moduleNames[moduleName]
+      for(let fileType in fileTypes){
+        let taskConfig = fileTypes[fileType]
+        configList.push({
+          category,
+          moduleName,
+          fileType,
+          taskConfig,
+          taskName   : `${category}-${moduleName}-${fileType}`,
+          paths      : pathInfo[fileType],
+          modulePath : path.resolve('..', 'task', category, moduleName)
+        })
       }
-    })
+    }
+  }
+
+  return configList
+}
+
+function registTasks(configList){
+  configList.forEach(({
+    category,
+    moduleName,
+    taskConfig,
+    taskName,
+    paths,
+    modulePath
+  }) => {
+    require(modulePath)(taskName, paths, taskConfig)
   })
 }
 
-priority.forEach((configKey) => {
-  let categories = configs[configKey]
-
-  _.keys(categories).forEach((category) => {
-    let moduleNames = categories[category]
-    let resultModules = result[category] = initObject(result[category])
-
-    _.keys(moduleNames).forEach((moduleName) => {
-      let filetypes = moduleNames[moduleName]
-      let resultFiletypes = resultModules[moduleName] = initObject(resultModules[moduleName])
-
-      _.keys(filetypes).forEach((filetype) => {
-        let config = filetypes[filetype]
-
-        if(resultFiletypes[filetype] === undefined){
-          resultFiletypes[filetype] = config
-        }else{
-          Object.assign(resultFiletypes[filetype], config)
-        }
-      })
-    })
+function runTaskDefine(configs){
+  configs.forEach((config) => {
+    if(_.isFunction(config.taskDefine)){
+      config.taskDefine(gulp)
+    }
   })
-})
-
-function initObject(origin){
-  if(Object.isObject(origin)){
-    return origin
-  }
-  return {}
 }

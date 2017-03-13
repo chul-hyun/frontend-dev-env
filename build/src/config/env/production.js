@@ -1,27 +1,41 @@
-export const clean = {
+import bs from '../val/bs';
+import gzipStatic from 'connect-gzip-static'
+import pathInfo from '../pathInfo';
+
+let tasks = {}
+
+tasks.clean = {
   del: {
     all: {}
   }
 }
 
-export const compress = {
+tasks.compress = {
   gz: {
     code: {}
   }
 }
 
-export const etc = {
+tasks.etc = {
   watch: {
     all: {
       srcTask: [],
-      onSrcChange: ()=>{},
+      onSrcChange: notifyChangeFile,
       destTask: [],
-      onDestChange: ()=>{}
+      onDestChange: reload
     }
   }
 }
 
-export const lint = {
+function notifyChangeFile(event){
+  bs.notify('File ' + path.basename(event.path) + ' was ' + event.type);
+}
+
+function reload(event){
+  bs.reload(event.path)
+}
+
+tasks.lint = {
   eslint: {
     script:{}
   },
@@ -33,7 +47,7 @@ export const lint = {
   }
 }
 
-export const min = {
+tasks.min = {
   uglify: {
     script: {}
   },
@@ -51,9 +65,21 @@ export const min = {
   }
 }
 
-export const server = {
+let baseDir = pathInfo.html.dir
+
+tasks.server = {
   browserSync: {
     all:{
+      server: {
+        baseDir
+      },
+      callbacks: {
+        ready: (err, bs) => {
+          bs.addMiddleware("*", gzipStatic(baseDir), {
+            override: true
+          });
+        }
+      },
       ui: false,
       port: 80,
       codeSync: false,
@@ -69,7 +95,7 @@ export const server = {
   }
 }
 
-export const trans = {
+tasks.trans = {
   babelify: {
     script:{
       browserify : {
@@ -89,7 +115,12 @@ export const trans = {
   }
 }
 
-export function taskDefine({ series, parallel, task }){
+function taskDefine({ series, parallel, task }){
   //performance -> development -> production 순으로 taskDefine이 실행 됨.
   //즉, 정의된 task도 extend 되게.
+}
+
+export default {
+  tasks,
+  taskDefine
 }

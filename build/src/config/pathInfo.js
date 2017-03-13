@@ -29,7 +29,7 @@ function createGlobs(...globs){
   return `${{globs.join(',')}}`
 }
 
-const default_pathinfo = {
+const defaultPathInfo = {
   file: {
     src  : path.join(dir.src, '**', glob.all),
     dest : path.join(dir.dist, '**', glob.all)
@@ -40,7 +40,7 @@ const default_pathinfo = {
   }
 }
 
-const pathinfo = {
+const pathInfo = {
   all: {},
   code: {
     file: {
@@ -68,8 +68,8 @@ const pathinfo = {
   }
 }
 
-for(let key in pathinfo){
-  pathinfo[key] = Object.assign({}, default_pathinfo, pathinfo[key])
+for(let key in pathInfo){
+  pathInfo[key] = Object.assign({}, defaultPathInfo, pathInfo[key])
 }
 
-export default pathinfo
+export default pathInfo
